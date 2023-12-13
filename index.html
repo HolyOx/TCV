@@ -1,0 +1,181 @@
+<!doctype html>
+<html class="no-js" lang="pt-br">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/foundation.min.css">
+        <link rel="stylesheet" href="css/app.css">
+        <title>TCC: TCV (Taxa de Cobertura Vacinal)</title>
+    </head>
+    <body>
+        
+        <!-- Start Top Bar -->
+        <div class="top-bar">
+            <div class="row">
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li class="menu-text">Taxa de Cobertura Vacinal</li>
+                        <li class="has-submenu">
+                            <a href="#">Informações</a>
+                            <ul class="submenu menu vertical" data-submenu>
+                                <li><a href="https://www.gov.br/saude/pt-br/assuntos/noticias/2023/agosto/ministerio-da-saude-lanca-campanha-nacional-de-multivacinacao-para-criancas-e-adolescentes" target="_blank">Campanhas de Vacinação Infantil</a></li>
+                                <li><a href="https://www.gov.br/saude/pt-br/vacinacao/calendario" target="_blank">Calendario de Vacinação Infantil</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="https://bvsms.saude.gov.br/bvs/publicacoes/manual_centros_imunobiologicos_especiais_5ed.pdf" target="_blank">Imunobiológicos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Top Bar -->
+
+        <!-- Start Breadcrumb -->
+        <div class="row columns">
+            <nav aria-label="You are here:" role="navigation" class="bc-margin">
+                <ul class="breadcrumbs">
+                    <li><a href="#">Página Inicial</a></li>
+                    <li><span class="show-for-sr">Atual: </span>TAXA DE COBERTURA VACINAL - BRASIL</li>
+                </ul>
+            </nav>
+        </div>
+        <!-- End Breadcrumb -->
+
+        <!-- Start Content -->
+        <div class="column row">
+            <h5>Visualizações Gráficas</h5>
+            <ul class="tabs" data-tabs id="agrupadores">
+                <li class="tabs-title is-active"><a href="#por-barra">Gráfico de Barras</a></li>
+                <li class="tabs-title"><a href="#por-polar">Gráfico Polar</a></li>
+                <li class="tabs-title"><a href="#por-histograma">Histograma</a></li>
+            </ul>
+            <div class="tabs-content" data-tabs-content="agrupadores">
+                <div class="tabs-panel is-active" id="por-barra">
+                    <div class="row">
+                        <div class="large-6 column">
+                            
+                            <div class="border-round row-state" style="position: relative">
+                                <div id="map-container"></div>
+                                <a id="bt-voltar" style="position: absolute; top: 12px; left: 24px; display: none;" onclick="printMapChart()" href="#">Voltar</a>
+                            </div>
+
+                        </div>
+                        <div class="large-6 column"">
+                            
+                            <div class="border-round">
+
+                                <form id="chart-form">
+                                    <div class="row">
+                                        <div class="small-6 large-6 columns">
+                                            <label>Região
+                                                <select id="input-regioes"><option selected></option></select>
+                                            </label>
+                                        </div>
+                                        <div class="small-6 large- columns">
+                                            <label>Estado
+                                                <select id="input-estados" disabled="disabled"><option selected></option></select>
+                                            </label>
+                                        </div>
+                                        <div class="small-6 large-6 columns">
+                                            <label>Cidade
+                                                <select id="input-cidades" disabled="disabled"><option selected></option></select>
+                                            </label>
+                                        </div>
+                                        <div class="small-6 large-6 columns">
+                                            <label>Ano
+                                                <select id="input-anos" disabled="disabled"><option selected></option></select>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="large-12 columns">
+                                            <canvas class="large-12 columns" id="bars-chart-container" style="height:450px"></canvas>
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-panel" id="por-polar">
+                    <div class="row">
+                        <div class="small-6 column">
+                            <div class="border-round">
+                                <div id="InformaçãoPolar"style="text-align: left">
+                                    <h5>Gráfico Polar</h5>
+                                    <font size=2>Os gráficos de área polar são semelhantes aos gráficos de pizza, mas cada segmento tem o mesmo ângulo – o raio do segmento difere dependendo do valor.</font><br>
+                                    <font size=2>Este tipo de gráfico geralmente é útil quando queremos mostrar dados de comparação semelhantes a um gráfico de pizza, mas também mostrar uma escala de valores para contexto.</font><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 column">
+                            <div class="border-round">
+                                <canvas id="polarchart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs-panel" id="por-histograma">
+                    <div class="row">
+                        <div class="large-12 column">
+                            <canvas id="histogram" style="text-align: center; width:800px"></canvas>
+                        </div>
+                        <div class="large-12 column">
+                            <div class="border-round">
+                                <div id="InformaçãoPolar"style="text-align: left">
+                                    <h5>Histograma</h5>
+                                    <font size=2>Um histograma é uma espécie de gráfico de barras que demonstra uma distribuição de frequências. No histograma, a base de cada uma das barras representa uma classe e a altura representa a quantidade ou frequência absoluta com que o valor de cada classe ocorre.</font><br>
+                                    <font size=2>O professor sugeriou uma ideia de paralelo entre taxa de vacinação dos governos nos periodos mencionados..</font><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+        <script src="js/data/indexed-data.js"></script>
+        <script src="js/data/vaccines.js"></script>
+        <script src="js/data/regions.js"></script>
+        <script src="js/data/states.js"></script>
+        <script src="js/data/cities.js"></script>
+        <script src="js/data/years.js"></script>
+
+        <script src="js/data/geometry/countries/br.js"></script>
+        <script src="js/data/geometry/states/ac.js"></script>
+        <script src="js/data/geometry/states/al.js"></script>
+        <script src="js/data/geometry/states/ap.js"></script>
+        <script src="js/data/geometry/states/am.js"></script>
+        <script src="js/data/geometry/states/ba.js"></script>
+        <script src="js/data/geometry/states/ce.js"></script>
+        <script src="js/data/geometry/states/df.js"></script>
+        <script src="js/data/geometry/states/es.js"></script>
+        <script src="js/data/geometry/states/go.js"></script>
+        <script src="js/data/geometry/states/ma.js"></script>
+        <script src="js/data/geometry/states/mt.js"></script>
+        <script src="js/data/geometry/states/ms.js"></script>
+        <script src="js/data/geometry/states/mg.js"></script>
+        <script src="js/data/geometry/states/pa.js"></script>
+        <script src="js/data/geometry/states/pb.js"></script>
+        <script src="js/data/geometry/states/pr.js"></script>
+        <script src="js/data/geometry/states/pe.js"></script>
+        <script src="js/data/geometry/states/pi.js"></script>
+        <script src="js/data/geometry/states/rj.js"></script>
+        <script src="js/data/geometry/states/rn.js"></script>
+        <script src="js/data/geometry/states/rs.js"></script>
+        <script src="js/data/geometry/states/ro.js"></script>
+        <script src="js/data/geometry/states/rr.js"></script>
+        <script src="js/data/geometry/states/sc.js"></script>
+        <script src="js/data/geometry/states/sp.js"></script>
+        <script src="js/data/geometry/states/se.js"></script>
+        <script src="js/data/geometry/states/to.js"></script>
+        <script src="js/vendor/chart.min.js"></script>
+        <script src="js/vendor/highmaps.min.js"></script>
+        <script src="js/vendor/jquery.min.js"></script>
+        <script src="js/vendor/what-input.min.js"></script>
+        <script src="js/vendor/foundation.min.js"></script>
+        <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+const YEARS = [
+    { code:  1, total:  74.64, name: "2000" },
+    { code:  2, total:  74.66, name: "2001" },
+    { code:  3, total:  74.98, name: "2002" },
+    { code:  4, total:  76.22, name: "2003" },
+    { code:  5, total:  83.81, name: "2004" },
+    { code:  6, total:  83.13, name: "2005" },
+    { code:  7, total:  82.47, name: "2006" },
+    { code:  8, total:  86.78, name: "2007" },
+    { code:  9, total:  82.05, name: "2008" },
+    { code: 10, total:  87.56, name: "2009" },
+    { code: 11, total:  83.80, name: "2010" },
+    { code: 12, total:  97.74, name: "2011" },
+    { code: 13, total:  86.62, name: "2012" },
+    { code: 14, total:  87.38, name: "2013" },
+    { code: 15, total:  96.23, name: "2014" },
+    { code: 16, total:  97.11, name: "2015" },
+    { code: 17, total:  92.26, name: "2016" },
+    { code: 18, total:  90.54, name: "2017" },
+    { code: 19, total:  92.11, name: "2018" },
+    { code: 20, total:  87.88, name: "2019" },
+    { code: 21, total:  84.55, name: "2020" }
+];

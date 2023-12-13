@@ -1,0 +1,170 @@
+<form onchange="updateSelected()">
+    <label>Tipo:</label><br />
+    <select id="input-tipo" style="width:100px">
+        <option disable="disabled"></option>
+        <option value="direto">Direto</option>
+        <option value="indireto">Indireto</option>
+    </select><br /><br />
+    <label>Anos:</label><br />
+    <textarea id="ano" style="width:1000px; height: 110px"></textarea><br /><br />
+    <label>Regiões:</label><br />
+    <textarea id="regiao" style="width:1000px; height: 110px"></textarea><br /><br />
+    <label>Estados:</label><br />
+    <textarea id="estado" style="width:1000px; height: 110px"></textarea><br /><br />
+    <label>Cidades:</label><br />
+    <textarea id="cidade" style="width:1000px; height: 110px"></textarea><br /><br />
+    <label>Data:</label><br />
+    <textarea id="data" style="width:1000px; height: 220px"></textarea><br /><br />
+</form>
+
+<script src="./source.min.js"></script>
+<script>
+
+let value = {};
+let ano = [];
+let regiao = [];
+let estado = [];
+let cidade = [];
+let selected = null;
+
+function updateSelected() {
+    selected = document.getElementById("input-tipo");
+
+    var sumRegioes = {};
+    var arrRegioes = [];
+    var sumEstados = {};
+    var arrEstados = [];
+    var sumAnos = {};
+    var arrAnos = [];
+    var index = 0;
+
+    var codigoCidade = 0;
+    var total = 0;
+    var count = 0;
+
+    for (var i = 0; i < source.length; i++) {
+
+        if (source[i].Total) {
+            var regiaoValue = String(source[i].Codigo).substring(0, 1);
+            if (!sumRegioes[regiaoValue]) sumRegioes[regiaoValue] = {}, arrRegioes.push(String(regiaoValue));
+            if (!sumRegioes[regiaoValue].total) sumRegioes[regiaoValue].total = 0.0;
+            if (!sumRegioes[regiaoValue].count) sumRegioes[regiaoValue].count = 0;
+
+            sumRegioes[regiaoValue].total += parseFloat(source[i].Total);
+            sumRegioes[regiaoValue].count++;
+            
+            var estadoValue = String(source[i].Codigo).substring(0, 2);
+            if (!sumEstados[estadoValue]) sumEstados[estadoValue] = {}, arrEstados.push(String(estadoValue));
+            if (!sumEstados[estadoValue].total) sumEstados[estadoValue].total = 0.0;
+            if (!sumEstados[estadoValue].count) sumEstados[estadoValue].count = 0;
+
+            sumEstados[estadoValue].total += parseFloat(source[i].Total);
+            sumEstados[estadoValue].count++;
+
+            if (!sumAnos[source[i].Ano]) sumAnos[source[i].Ano] = {}, arrAnos.push(String(source[i].Ano));
+            if (!sumAnos[source[i].Ano].total) sumAnos[source[i].Ano].total = 0.0;
+            if (!sumAnos[source[i].Ano].count) sumAnos[source[i].Ano].count = 0;
+
+            sumAnos[source[i].Ano].total += parseFloat(source[i].Total);
+            sumAnos[source[i].Ano].count++;
+        }
+
+        if (selected.value === "direto") {
+
+            if (i === 0 || source[i].Codigo !== source[i-1].Codigo) {
+                
+                cidade.push({
+                    code: source[i]["Codigo"],
+                    uf: parseInt(String(source[i]["Codigo"]).substring(0, 2)),
+                    name: source[i]["Municipio"]
+                });
+                value[source[i]["Municipio"]] = {};
+            }
+
+            value[source[i]["Municipio"]].code = source[i]["Codigo"];
+            value[source[i]["Municipio"]][source[i]["Ano"]] = [
+                source[i]["BCG"],
+                source[i]["Febre Amarela"],
+                source[i]["Triplice Viral"],
+                source[i]["Tetra Viral"],
+                source[i]["Hepatite A"],
+                source[i]["Hepatite B"],
+                source[i]["Meningococo C"],
+                source[i]["Pentavalente"],
+                source[i]["Pneumococica"],
+                source[i]["Poliomielite"],
+                source[i]["Rotavirus Humano"],
+                source[i]["Total"]
+            ];
+        } else if (selected.value === "indireto") {
+
+            if (i !== 0 && source[i].Codigo !== source[i-1].Codigo) {
+
+                index++;
+            }
+
+            if (i === 0 || source[i].Codigo !== source[i-1].Codigo) {
+
+                cidade.push({
+                    code: source[i]["Codigo"],
+                    uf: parseInt(String(source[i]["Codigo"]).substring(0, 2)),
+                    name: source[i]["Municipio"]
+                });
+                value[index] = { "cidade": source[i]["Municipio"], "ano": [] };
+            }
+
+            value[index].ano.push({
+                "valor": source[i]["Ano"],
+                "vacina": [
+                    { "nome": "BCG",              "valor": source[i]["BCG"] },
+                    { "nome": "Febre Amarela",    "valor": source[i]["Febre Amarela"] },
+                    { "nome": "Triplice Viral",   "valor": source[i]["Triplice Viral"] },
+                    { "nome": "Tetra Viral",      "valor": source[i]["Tetra Viral"] },
+                    { "nome": "Hepatite A",       "valor": source[i]["Hepatite A"] },
+                    { "nome": "Hepatite B",       "valor": source[i]["Hepatite B"] },
+                    { "nome": "Meningococo C",    "valor": source[i]["Meningococo C"] },
+                    { "nome": "Pentavalente",     "valor": source[i]["Pentavalente"] },
+                    { "nome": "Pneumococica",     "valor": source[i]["Pneumococica"] },
+                    { "nome": "Poliomielite",     "valor": source[i]["Poliomielite"] },
+                    { "nome": "Rotavirus Humano", "valor": source[i]["Rotavirus Humano"] }
+                ],
+                "total": source[i]["Total"]
+            });
+        }
+    }
+
+    if (arrEstados && arrEstados.length > 0) {
+        arrEstados.forEach((code) => estado.push({
+            "code": parseInt(code),
+            "regionId": parseInt(String(code).substring(0, 1)),
+            "total": parseInt(sumEstados[code].total / sumEstados[code].count * 100) /100,
+            "acron": "",
+            "name": "",
+        }));
+    }
+        
+    if (arrRegioes && arrRegioes.length > 0) {
+        arrRegioes.forEach((code) => regiao.push({
+            "code": parseInt(code),
+            "total": parseInt(sumRegioes[code].total / sumRegioes[code].count * 100) /100,
+            "acron": "",
+            "name": "",
+        }));
+    }
+
+    if (arrAnos && arrAnos.length > 0) {
+        arrAnos.forEach((y, i) => ano.push({
+            "code": ++i,
+            "total": parseInt(sumAnos[y].total / sumAnos[y].count * 100) / 100,
+            "name": y
+        }));
+    }
+
+    document.getElementById("ano").innerHTML = JSON.stringify(ano);
+    document.getElementById("regiao").innerHTML = JSON.stringify(regiao);
+    document.getElementById("estado").innerHTML = JSON.stringify(estado);
+    document.getElementById("cidade").innerHTML = JSON.stringify(cidade);
+    document.getElementById("data").innerHTML = JSON.stringify(value);
+}
+
+</script>
