@@ -1,0 +1,19 @@
+body {
+    overflow-y: scroll;
+}
+
+.bc-margin {
+    margin-top: 16px;
+}
+
+.row-state {
+    height: 460px;
+}
+
+.border-round {
+    height: 100%;
+    border-radius: 25px;
+    border: 2px solid #C0C0C0;
+    margin-bottom: 20px;
+    padding: 20px; 
+}

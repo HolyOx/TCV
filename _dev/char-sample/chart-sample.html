@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+
+<div>
+    <canvas id="myChart"></canvas>
+<div>
+  
+    <script src="./data.js"></script>
+    <script src="./cidades.js"></script>
+    <script src="./vacinas.js"></script>
+    <script src="./anos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <form onchange="imprimeGrafico()">
+        <select id="cidades"><option disable="disabled"></option></select>><br />
+        <select id="anos"><option disable="disabled"></option></select><br /><br />
+    </form>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+
+        let chartLabels = [];
+        let chartData = [];
+
+        let selectAnos = document.getElementById("anos");
+        
+        for (var i = 0; i < anos.length; i++) {
+            var novaOpcao = new Option(String(anos[i]), String(anos[i]));
+            selectAnos.add(novaOpcao, undefined);
+        }
+        
+        let selectCidades = document.getElementById("cidades");
+
+        for (var i = 0; i < cidades.length; i++) {
+            var novaOpcao = new Option(String(cidades[i]), String(cidades[i]));
+            selectCidades.add(novaOpcao, undefined);
+        }
+
+        let anoSelecionado = "";
+        let cidadeSelecionada = "";
+
+        function imprimeGrafico() {
+
+            anoSelecionado = selectAnos.value;
+            cidadeSelecionada = selectCidades.value;
+
+            if (anoSelecionado !== "" && cidadeSelecionada !== "") {
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: vacinas,
+                        datasets: [{
+                            label: '# of Votes',
+                            data: data[cidadeSelecionada][anoSelecionado],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+</script>
+
+</body>
+</html>

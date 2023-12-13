@@ -1,0 +1,31 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+    <textarea id="data" style="width:1000px; height: 220px"></textarea><br /><br />
+    
+    <script src="./source.js"></script>
+    <script src="./ibge.js"></script>
+    
+    <script>
+        let dt = [];
+        for (var j = 0; j < IBGE.length; j++) {
+        for (var i = 0; i < source.length; i++) {
+            if (source[i]) {
+                if (source[i].Municipio === IBGE[j].name) {
+                    var temp = source[i];
+                    temp.Codigo = IBGE[j].code;
+                    dt.push(temp);
+                    delete source[i];
+                }
+            }
+        }
+    }
+    
+    document.getElementById("data").innerHTML = JSON.stringify(dt);
+    
+</script>
+</body>
+</html>
